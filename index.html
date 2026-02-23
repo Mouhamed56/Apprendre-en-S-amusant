@@ -65,9 +65,31 @@
      <p class="text-xl md:text-2xl text-white/95 mb-2">Un site magique pour les petits génies ! 🌟</p>
      <p class="text-lg text-white/80 mb-8 max-w-md mx-auto text-center">
 Découvre l'alphabet, les chiffres, les mots et teste ton savoir !
-</p><button onclick="showSection('menu')" class="bg-gradient-to-r from-yellow-400 to-pink-400 hover:from-yellow-500 hover:to-pink-500 text-white font-extrabold py-6 px-12 rounded-3xl text-2xl shadow-2xl transform hover:scale-110 transition-all animate-pulse"> Commencer l'aventure → </button>
+</p><button onclick="startAccess()" class="bg-gradient-to-r from-yellow-400 to-pink-400 hover:from-yellow-500 hover:to-pink-500 text-white font-extrabold py-6 px-12 rounded-3xl text-2xl shadow-2xl transform hover:scale-110 transition-all animate-pulse"> Commencer l'aventure → </button>
     </div>
    </div><!-- Menu Principal -->
+   <!-- Page Code Accès -->
+
+<div id="login" class="hidden min-h-full flex flex-col items-center justify-center p-4 slide-in">
+
+<h1 class="text-3xl font-bold text-white mb-4">
+Accès au site
+</h1>
+
+<p class="text-white mb-4">
+Entrer votre code d'accès
+</p>
+
+<input id="accessCode"
+placeholder="Code"
+class="p-3 rounded-xl text-black mb-4 rounded-xl">
+
+<button onclick="checkAccessCode()"
+class="bg-yellow-400 px-6 py-3 rounded-xl font-bold">
+Valider
+</button>
+
+</div>
    <div id="menu" class="hidden min-h-full flex flex-col items-center justify-center p-4 slide-in">
     <div class="text-6xl mb-4 wiggle">
      📚
@@ -466,8 +488,23 @@ Découvre l'alphabet, les chiffres, les mots et teste ton savoir !
     }
 
     // Navigation entre sections
-    function showSection(sectionId) {
-      const sections = ['home', 'menu', 'alphabet', 'numbers', 'words', 'quiz'];
+   function showSection(sectionId) {
+
+if(sectionId === 'menu'){
+
+let access = sessionStorage.getItem("access");
+
+if(access !== "ok"){
+
+showSection('login');
+
+return;
+
+}
+
+}
+
+const sections = ['home','login','menu','alphabet','numbers','words','quiz'];
       sections.forEach(id => {
         const el = document.getElementById(id);
         if (id === sectionId) {
@@ -774,8 +811,41 @@ Découvre l'alphabet, les chiffres, les mots et teste ton savoir !
     updateLetterDisplay();
     updateNumberDisplay();
     updateWordDisplay();
+    function checkAccessCode(){
+
+let code = document.getElementById("accessCode").value;
+
+if(code === "SEN2026"){
+
+sessionStorage.setItem("access","ok");
+
+showSection('menu');
+
+}else{
+
+alert("Code incorrect");
+
+}
+
+}
     
+function startAccess(){
+
+let access = sessionStorage.getItem("access");
+
+if(access === "ok"){
+
+showSection('menu');
+
+}else{
+
+showSection('login');
+
+}
+
+}
   </script>
+  
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d24105d2035de3e',t:'MTc3MTgyMTgyMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 <footer class="fixed bottom-0 w-full bg-black/30 backdrop-blur text-white text-center py-2 px-4">
   <p class="text-sm">
